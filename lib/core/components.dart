@@ -228,18 +228,10 @@ Widget socialLogin({
       ),
     );
 
-PreferredSizeWidget? DefaultAppBarSocial({
+PreferredSizeWidget? DefaultAppBar({
   required BuildContext context,
   List<Widget>? actions,
   String? title,
+  Widget? leading,
 }) =>
-    AppBar(
-      actions: actions,
-      title: Text('$title'),
-      leading: IconButton(
-        icon: FaIcon(FontAwesomeIcons.arrowLeft),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-    );
+    AppBar(actions: actions, title: Text('$title'), leading: leading);
