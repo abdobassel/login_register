@@ -10,8 +10,8 @@ import 'package:project/features/register/presentation/cubit/register_cubit.dart
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
-  TextEditingController emailControler = TextEditingController();
-  TextEditingController passControler = TextEditingController();
+  TextEditingController _emailControler = TextEditingController();
+  TextEditingController _passControler = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +21,10 @@ class RegisterScreen extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             var cubit = RegisterCubit.get(context);
-            cubit.countCharacters(text: passControler.text);
-            cubit.isTextHaseUpperCase(text: passControler.text);
+            // old code before refactor => onchange();
+
+            //   cubit.countCharacters(text: _passControler.text);
+            // cubit.isTextHaseUpperCase(text: _passControler.text);
             return Scaffold(
               appBar: DefaultAppBar(
                 context: context,
@@ -59,19 +61,28 @@ class RegisterScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         DefaultTextForm(
-                            controller: emailControler,
+                            onchange: (text) {
+                              print(text);
+                            },
+                            controller: _emailControler,
                             labeltext: 'Email',
                             type: TextInputType.emailAddress),
                         const SizedBox(
                           height: 25,
                         ),
                         DefaultTextForm(
+                            onchange: (text) {
+                              _passControler.text = text!;
+                              cubit.countCharacters(text: text);
+                              cubit.isTextHaseUpperCase(text: text);
+                              print(text);
+                            },
                             isPassword: cubit.isPassword,
                             sufxBtn: cubit.isPassword ? 'view' : 'Hide',
                             showPassfunc: () {
                               cubit.showPass();
                             },
-                            controller: passControler,
+                            controller: _passControler,
                             labeltext: 'Password',
                             type: TextInputType.visiblePassword),
                         SizedBox(
