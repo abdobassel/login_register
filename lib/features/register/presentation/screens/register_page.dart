@@ -81,7 +81,7 @@ class RegisterScreen extends StatelessWidget {
                           children: [
                             Icon(
                               cubit.charactersCompleted
-                                  ? Icons.domain_verification_rounded
+                                  ? Icons.check_circle
                                   : Icons.circle_outlined,
                               color: Colors.white,
                             ),
@@ -104,7 +104,7 @@ class RegisterScreen extends StatelessWidget {
                           children: [
                             Icon(
                               state is ShowCharactresHasUppercaseState
-                                  ? Icons.domain_verification_rounded
+                                  ? Icons.check_circle
                                   : Icons.circle_outlined,
                               color: Colors.white,
                             ),

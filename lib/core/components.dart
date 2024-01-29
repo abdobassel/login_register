@@ -117,7 +117,7 @@ Widget DefaultTextForm({
 }) =>
     TextFormField(
       cursorColor: Colors.white,
-      style: const TextStyle(color: Colors.white),
+      style: const TextStyle(color: Colors.white, fontSize: 20),
       onTap: onTap,
       onChanged: onchange,
       obscureText: isPassword,
@@ -135,14 +135,19 @@ Widget DefaultTextForm({
               style: const TextStyle(color: ColorApp.hint),
             )),
         suffixText: suffxtext,
-        labelStyle: const TextStyle(color: ColorApp.hint),
+        labelStyle: const TextStyle(
+          color: ColorApp.hint,
+        ),
         focusedBorder:
             UnderlineInputBorder(borderSide: BorderSide(color: ColorApp.hint)),
         enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
           color: Colors.white,
         )),
-        hintStyle: TextStyle(color: ColorApp.hint),
+        hintStyle: TextStyle(
+          color: ColorApp.hint,
+          fontSize: 18,
+        ),
         labelText: labeltext,
         border:
             UnderlineInputBorder(borderSide: BorderSide(color: Colors.white)),
