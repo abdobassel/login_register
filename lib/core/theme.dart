@@ -6,6 +6,7 @@ ThemeData dark() {
     hintColor: ColorApp.hint,
     scaffoldBackgroundColor: ColorApp.ScafflodColor,
     appBarTheme: const AppBarTheme(
+      scrolledUnderElevation: 0.0,
       color: ColorApp.ScafflodColor,
       centerTitle: true,
       elevation: 0.0,

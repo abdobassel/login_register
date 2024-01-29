@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
+import 'package:project/features/login/presentation/screens/login_screen.dart';
+import 'package:project/features/login/presentation/widgets/separated_widget_row.dart';
+import 'package:project/features/login/presentation/widgets/social_auth.dart';
 import 'package:project/features/register/presentation/cubit/register_cubit.dart';
 
 class RegisterScreen extends StatelessWidget {
@@ -18,6 +21,8 @@ class RegisterScreen extends StatelessWidget {
           listener: (context, state) {},
           builder: (context, state) {
             var cubit = RegisterCubit.get(context);
+            cubit.countCharacters(text: passControler.text);
+            cubit.isTextHaseUpperCase(text: passControler.text);
             return Scaffold(
               appBar: DefaultAppBar(
                 context: context,
@@ -32,7 +37,7 @@ class RegisterScreen extends StatelessWidget {
                         onPressed: () {},
                         child: const Text(
                           'Skip',
-                          style: TextStyle(color: ColorApp.hint, fontSize: 18),
+                          style: TextStyle(color: ColorApp.hint, fontSize: 16),
                         )),
                   )
                 ],
@@ -47,8 +52,9 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
               body: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Padding(
-                  padding: EdgeInsets.all(20),
+                  padding: const EdgeInsets.all(20),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -68,76 +74,90 @@ class RegisterScreen extends StatelessWidget {
                             controller: passControler,
                             labeltext: 'Password',
                             type: TextInputType.visiblePassword),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              cubit.charactersCompleted
+                                  ? Icons.domain_verification_rounded
+                                  : Icons.circle_outlined,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Minimum 8 Characters',
+                              style: TextStyle(
+                                  color: ColorApp.hint,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          children: [
+                            Icon(
+                              state is ShowCharactresHasUppercaseState
+                                  ? Icons.domain_verification_rounded
+                                  : Icons.circle_outlined,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'one UpperCase and one Lowercase',
+                              style: TextStyle(
+                                  color: ColorApp.hint,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w400),
+                            ),
+                          ],
+                        ),
                         const SizedBox(
                           height: 40,
                         ),
                         DefaultButton(
-                            text: 'Log in',
+                            text: 'Create Acount',
                             isUperCase: false,
-                            function: () {},
+                            function: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
                             background: ColorApp.Btn,
                             radius: 30),
                         const SizedBox(
+                          height: 25,
+                        ),
+                        const SeparatedWidgetDeviderAndText(),
+                        const SizedBox(
                           height: 14,
                         ),
+                        const SocialAuthLogin(),
                         Center(
                           child: InkWell(
                             splashColor: ColorApp.ScafflodColor,
-                            onTap: () {},
-                            child: Text('I Dont Have an Acount',
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
+                            },
+                            child: Text('Login With Email',
                                 style: TextStyle(
                                     color: Color(0xFFFFFFFF),
                                     fontSize: 20,
                                     fontWeight: FontWeight.w500)),
                           ),
                         ),
-                        const SizedBox(
-                          height: 25,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Container(
-                                height: 1,
-                                color: ColorApp.hint,
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5, left: 5),
-                              child: Text(
-                                'or',
-                                style: TextStyle(
-                                    fontSize: 15, color: ColorApp.hint),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                height: 1,
-                                color: ColorApp.hint,
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 14,
-                        ),
-                        socialLogin(
-                            iconData: FontAwesomeIcons.apple,
-                            text: 'login With Apple',
-                            onTap: () {}),
-                        socialLogin(
-                            iconData: FontAwesomeIcons.google,
-                            text: 'login With Google',
-                            onTap: () {}),
-                        socialLogin(
-                            iconData: FontAwesomeIcons.twitter,
-                            text: 'login With Twiter',
-                            onTap: () {}),
-                        socialLogin(
-                            iconData: FontAwesomeIcons.facebook,
-                            text: 'login With FaceBook',
-                            onTap: () {}),
                       ]),
                 ),
               ),

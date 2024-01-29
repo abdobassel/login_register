@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project/core/colors_app.dart';
 //import 'package:fluttertoast/fluttertoast.dart';
 
@@ -234,4 +233,10 @@ PreferredSizeWidget? DefaultAppBar({
   String? title,
   Widget? leading,
 }) =>
-    AppBar(actions: actions, title: Text('$title'), leading: leading);
+    AppBar(
+      actions: actions,
+      title: Text('$title'),
+      leading: leading,
+      elevation: 0.0,
+      scrolledUnderElevation: 0.0,
+    );
