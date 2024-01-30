@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
+import 'package:project/features/login/presentation/screens/login_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -42,7 +43,10 @@ class SplashScreen extends StatelessWidget {
               height: 20,
             ),
             socialLogin(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                },
                 iconData: FontAwesomeIcons.hand,
                 text: 'Get Started Now!')
           ],
