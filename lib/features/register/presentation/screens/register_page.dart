@@ -28,7 +28,7 @@ class RegisterScreen extends StatelessWidget {
             return Scaffold(
               appBar: DefaultAppBar(
                 context: context,
-                title: 'Create an Acount',
+                title: 'Create an Account',
                 actions: [
                   SizedBox(
                     width: 15,
@@ -135,7 +135,7 @@ class RegisterScreen extends StatelessWidget {
                           height: 40,
                         ),
                         DefaultButton(
-                            text: 'Create Acount',
+                            text: 'Create Account',
                             isUperCase: false,
                             function: () {
                               Navigator.push(

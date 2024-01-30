@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
 import 'package:project/features/login/presentation/screens/login_screen.dart';
@@ -44,8 +45,16 @@ class SplashScreen extends StatelessWidget {
             ),
             socialLogin(
                 onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
+                  Future.delayed(Duration(seconds: 1), () {
+                    // بعد انقضاء الوقت، نقوم بالانتقال إلى صفحة اللوجين بشكل سلس
+                    Navigator.of(context).push(PageTransition(
+                      duration: Duration(seconds: 1),
+                      child: LoginScreen(),
+                      childCurrent: this,
+                      type: PageTransitionType.rightToLeft,
+                      // alignment: Alignment.center,
+                    ));
+                  });
                 },
                 iconData: FontAwesomeIcons.hand,
                 text: 'Get Started Now!')
