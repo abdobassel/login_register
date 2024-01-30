@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:project/core/bloc_observer.dart';
 import 'package:project/core/theme.dart';
 import 'package:project/features/login/presentation/screens/login_screen.dart';
+import 'package:project/features/splash/presentation/screens/splash_screen.dart';
 
 void main() {
   Bloc.observer = MyBlocObserver();
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: dark(),
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }
