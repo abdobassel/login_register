@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
 import 'package:project/features/login/presentation/screens/login_screen.dart';
@@ -28,7 +29,7 @@ class RegisterScreen extends StatelessWidget {
             return Scaffold(
               appBar: DefaultAppBar(
                 context: context,
-                title: 'Create an Acount',
+                title: 'Create an Account',
                 actions: [
                   SizedBox(
                     width: 15,
@@ -135,7 +136,7 @@ class RegisterScreen extends StatelessWidget {
                           height: 40,
                         ),
                         DefaultButton(
-                            text: 'Create Acount',
+                            text: 'Create Account',
                             isUperCase: false,
                             function: () {
                               Navigator.push(
@@ -157,10 +158,9 @@ class RegisterScreen extends StatelessWidget {
                           child: InkWell(
                             splashColor: ColorApp.ScafflodColor,
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginScreen()));
+                              Navigator.pop(
+                                context,
+                              );
                             },
                             child: Text('Login With Email',
                                 style: TextStyle(

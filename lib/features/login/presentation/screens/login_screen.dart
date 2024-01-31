@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
 import 'package:project/features/login/presentation/cubit/login_cubit.dart';
@@ -22,6 +24,15 @@ class LoginScreen extends StatelessWidget {
             var cubit = LoginCubit.get(context);
             return Scaffold(
               appBar: DefaultAppBar(
+                leading: IconButton(
+                  icon: const FaIcon(
+                    FontAwesomeIcons.arrowLeft,
+                    color: ColorApp.hint,
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
                 context: context,
                 title: 'Log in',
                 actions: [
@@ -77,10 +88,13 @@ class LoginScreen extends StatelessWidget {
                           child: InkWell(
                             splashColor: ColorApp.ScafflodColor,
                             onTap: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => RegisterScreen()));
+                              Navigator.of(context).push(PageTransition(
+                                duration: Duration(seconds: 1),
+                                child: RegisterScreen(),
+                                childCurrent: this,
+                                type: PageTransitionType.fade,
+                                // alignment: Alignment.center,
+                              ));
                             },
                             child: const Text('I Dont Have an Acount',
                                 style: TextStyle(
