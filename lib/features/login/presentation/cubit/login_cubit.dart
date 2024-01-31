@@ -26,21 +26,21 @@ class LoginCubit extends Cubit<LoginState> {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       print(email);
-      print(FirebaseAuth.instance.currentUser!.uid);
+      String uid = FirebaseAuth.instance.currentUser!.uid;
       emit(LoginUserSuccessLoginState());
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
-        case "wrong-password":
-          ShowToast(text: 'Weak password!', state: ToastStates.WARNING);
+        case "invalid-credential":
+          ShowToast(text: 'Wrong password!', state: ToastStates.ERROR);
 
           break;
-        case "user-not-found":
-          ShowToast(text: 'User Not Found', state: ToastStates.ERROR);
+        case "invalid-email":
+          ShowToast(text: 'invalid email', state: ToastStates.ERROR);
           break;
         default:
           print("Unkown error.");
       }
-
+      print(e.toString());
       emit(LoginUserErrorLoginState(e.code));
     }
   }

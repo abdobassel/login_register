@@ -179,7 +179,8 @@ class RegisterScreen extends StatelessWidget {
                                 if (formKey.currentState!.validate()) {
                                   cubit.createUserAuth(
                                       email: _emailControler.text,
-                                      password: _passControler.text);
+                                      password: _passControler.text,
+                                      name: _nameControler.text);
                                 }
                               },
                               background: ColorApp.Btn,
