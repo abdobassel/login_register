@@ -77,7 +77,6 @@ class RegisterScreen extends StatelessWidget {
                               _passControler.text = text!;
                               cubit.countCharacters(text: text);
                               cubit.isTextHaseUpperCase(text: text);
-                              print(text);
                             },
                             isPassword: cubit.isPassword,
                             sufxBtn: cubit.isPassword ? 'view' : 'Hide',
@@ -136,33 +135,15 @@ class RegisterScreen extends StatelessWidget {
                         const SizedBox(
                           height: 40,
                         ),
+                        if (state is CreateUserLoadinRegister)
+                          const Center(child: CircularProgressIndicator()),
                         DefaultButton(
                             text: 'Create Account',
                             isUperCase: false,
-                            function: () async {
-                              try {
-                                var auth = await FirebaseAuth.instance
-                                    .createUserWithEmailAndPassword(
-                                        email: _emailControler.text,
-                                        password: _passControler.text);
-                                print(auth.user!.email);
-                                print(auth.user!.uid);
-                              } on FirebaseAuthException catch (e) {
-                                switch (e.code) {
-                                  case "weak-password":
-                                    ShowToast(
-                                        text: 'Weak password!',
-                                        state: ToastStates.WARNING);
-                                    break;
-                                  case "email-already-in-use":
-                                    ShowToast(
-                                        text: 'Email already Exists!',
-                                        state: ToastStates.ERROR);
-                                    break;
-                                  default:
-                                    print("Unkown error.");
-                                }
-                              }
+                            function: () {
+                              cubit.createUserAuth(
+                                  email: _emailControler.text,
+                                  password: _passControler.text);
                             },
                             background: ColorApp.Btn,
                             radius: 30),

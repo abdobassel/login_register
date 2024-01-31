@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project/core/components.dart';
 
 part 'register_state.dart';
 
@@ -54,6 +56,34 @@ class RegisterCubit extends Cubit<RegisterState> {
       emit(ShowCharactresHasUppercaseState());
     } else {
       emit(ShowCharactresNotHasUppercaseState());
+    }
+  }
+
+// Create User firbase Auth
+
+  Future<void> createUserAuth(
+      {required String email, required String password}) async {
+    emit(CreateUserLoadinRegister());
+    try {
+      var auth = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(email: email, password: password);
+      ShowToast(text: 'Success Register', state: ToastStates.SUCCESS);
+      emit(CreateUserSuccessRegister());
+      print(auth.user!.email);
+      print(auth.user!.uid);
+    } on FirebaseAuthException catch (e) {
+      switch (e.code) {
+        case "weak-password":
+          ShowToast(text: 'Weak password!', state: ToastStates.WARNING);
+
+          break;
+        case "email-already-in-use":
+          ShowToast(text: 'Email already Exists!', state: ToastStates.ERROR);
+          break;
+        default:
+          print("Unkown error.");
+      }
+      emit(CreateUserErrorRegister(e.code));
     }
   }
 }
