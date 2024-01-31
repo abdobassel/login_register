@@ -5,8 +5,38 @@ import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
 import 'package:project/features/login/presentation/screens/login_screen.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController controlerAnimation;
+  late Animation<Offset> slideAnimation;
+
+  @override
+  void initState() {
+    super.initState();
+    controlerAnimation =
+        AnimationController(vsync: this, duration: const Duration(seconds: 1));
+
+    slideAnimation = Tween<Offset>(begin: const Offset(2, 0), end: Offset.zero)
+        .animate(controlerAnimation);
+    controlerAnimation.forward();
+    //  slideAnimation.addListener(() {
+    //  setState(() {});
+    // });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    controlerAnimation.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,34 +60,48 @@ class SplashScreen extends StatelessWidget {
                     spreadRadius: 40,
                     offset: Offset(10, 5))
               ]),
-              child: const Center(
-                child: Text(
-                  'Welcom To Our World',
-                  style: TextStyle(
-                      fontSize: 35,
-                      color: ColorApp.hint,
-                      fontWeight: FontWeight.bold),
-                ),
+              child: Center(
+                child: AnimatedBuilder(
+                    animation: slideAnimation,
+                    builder: (context, _) {
+                      return SlideTransition(
+                        position: slideAnimation,
+                        child: Text(
+                          'Welcom To Our World',
+                          style: TextStyle(
+                              fontSize: 35,
+                              color: ColorApp.hint,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      );
+                    }),
               ),
             ),
             SizedBox(
               height: 20,
             ),
-            socialLogin(
-                onTap: () {
-                  Future.delayed(Duration(seconds: 1), () {
-                    // بعد انقضاء الوقت، نقوم بالانتقال إلى صفحة اللوجين بشكل سلس
-                    Navigator.of(context).push(PageTransition(
-                      duration: Duration(seconds: 1),
-                      child: LoginScreen(),
-                      childCurrent: this,
-                      type: PageTransitionType.rightToLeft,
-                      // alignment: Alignment.center,
-                    ));
-                  });
-                },
-                iconData: FontAwesomeIcons.hand,
-                text: 'Get Started Now!')
+            AnimatedBuilder(
+                animation: slideAnimation,
+                builder: (context, _) {
+                  return SlideTransition(
+                    position: slideAnimation,
+                    child: socialLogin(
+                        onTap: () {
+                          Future.delayed(Duration(seconds: 1), () {
+                            // بعد انقضاء الوقت، نقوم بالانتقال إلى صفحة اللوجين بشكل سلس
+                            Navigator.of(context).push(PageTransition(
+                              duration: Duration(seconds: 1),
+                              child: LoginScreen(),
+                              childCurrent: const SplashScreen(),
+                              type: PageTransitionType.rightToLeft,
+                              // alignment: Alignment.center,
+                            ));
+                          });
+                        },
+                        iconData: FontAwesomeIcons.hand,
+                        text: 'Get Started Now!'),
+                  );
+                })
           ],
         ),
       ),

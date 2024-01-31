@@ -12,9 +12,9 @@ class RegisterScreen extends StatelessWidget {
   RegisterScreen({super.key});
   TextEditingController _emailControler = TextEditingController();
   TextEditingController _passControler = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey();
 
   TextEditingController _nameControler = TextEditingController();
-  GlobalKey<FormState> formKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
