@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/core/components.dart';
+import 'package:project/features/register/data/models/user_create_model.dart';
 
 part 'register_state.dart';
 
@@ -62,11 +64,16 @@ class RegisterCubit extends Cubit<RegisterState> {
 // Create User firbase Auth
 
   Future<void> createUserAuth(
-      {required String email, required String password}) async {
+      {required String email,
+      required String password,
+      required String name}) async {
     emit(CreateUserLoadinRegister());
     try {
       var auth = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+
+      // create data for profile --- fire store call method
+      createUserData(email: email, name: name, userId: auth.user!.uid);
       ShowToast(text: 'Success Register', state: ToastStates.SUCCESS);
       emit(CreateUserSuccessRegister());
       print(auth.user!.email);
@@ -85,6 +92,25 @@ class RegisterCubit extends Cubit<RegisterState> {
       }
 
       emit(CreateUserErrorRegister(e.code));
+    }
+  }
+
+  // method user data create => fireStore
+  Future<void> createUserData(
+      {required String email,
+      required String name,
+      required String userId}) async {
+    emit(CreateUserDataLoadingState());
+    try {
+      UserModel model = UserModel(email: email, name: name, userId: userId);
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .set(model.toMap());
+      print(model.name);
+      emit(CreateUserDataSuccessState());
+    } on FirebaseAuthException catch (e) {
+      emit(CreateUserDataErrorState(e.toString()));
     }
   }
 }

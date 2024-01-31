@@ -14,6 +14,7 @@ class ShowCharactresHasUppercaseState extends RegisterState {}
 
 class ShowCharactresNotHasUppercaseState extends RegisterState {}
 
+// register only not create data in firestore
 class CreateUserSuccessRegister extends RegisterState {}
 
 class CreateUserLoadinRegister extends RegisterState {}
@@ -21,4 +22,14 @@ class CreateUserLoadinRegister extends RegisterState {}
 class CreateUserErrorRegister extends RegisterState {
   final String error;
   CreateUserErrorRegister(this.error);
+}
+
+// create user firestore database with register
+class CreateUserDataLoadingState extends RegisterState {}
+
+class CreateUserDataSuccessState extends RegisterState {}
+
+class CreateUserDataErrorState extends RegisterState {
+  final String error;
+  CreateUserDataErrorState(this.error);
 }
