@@ -2,10 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
-import 'package:project/features/login/presentation/screens/login_screen.dart';
 import 'package:project/features/login/presentation/widgets/separated_widget_row.dart';
 import 'package:project/features/login/presentation/widgets/social_auth.dart';
 import 'package:project/features/register/presentation/cubit/register_cubit.dart';
@@ -15,6 +13,8 @@ class RegisterScreen extends StatelessWidget {
   TextEditingController _emailControler = TextEditingController();
   TextEditingController _passControler = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
+
+  TextEditingController _nameControler = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,10 +69,29 @@ class RegisterScreen extends StatelessWidget {
                               validate: (value) {
                                 if (value != null) {
                                   if (value.isEmpty) {
+                                    return 'Name Is Empty ';
+                                  }
+                                  return null;
+                                }
+                              },
+                              onchange: (text) {},
+                              controller: _nameControler,
+                              labeltext: 'Name',
+                              type: TextInputType.name),
+                          const SizedBox(
+                            height: 25,
+                          ),
+                          DefaultTextForm(
+                              validate: (value) {
+                                if (value != null) {
+                                  if (value.isEmpty) {
                                     return 'Email Is Empty ';
                                   }
                                   return null;
                                 }
+                              },
+                              onchange: (text) {
+                                print(text);
                               },
                               controller: _emailControler,
                               labeltext: 'Email',
