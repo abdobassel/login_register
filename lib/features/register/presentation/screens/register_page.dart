@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -138,11 +139,30 @@ class RegisterScreen extends StatelessWidget {
                         DefaultButton(
                             text: 'Create Account',
                             isUperCase: false,
-                            function: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => LoginScreen()));
+                            function: () async {
+                              try {
+                                var auth = await FirebaseAuth.instance
+                                    .createUserWithEmailAndPassword(
+                                        email: _emailControler.text,
+                                        password: _passControler.text);
+                                print(auth.user!.email);
+                                print(auth.user!.uid);
+                              } on FirebaseAuthException catch (e) {
+                                switch (e.code) {
+                                  case "weak-password":
+                                    ShowToast(
+                                        text: 'Weak password!',
+                                        state: ToastStates.WARNING);
+                                    break;
+                                  case "email-already-in-use":
+                                    ShowToast(
+                                        text: 'Email already Exists!',
+                                        state: ToastStates.ERROR);
+                                    break;
+                                  default:
+                                    print("Unkown error.");
+                                }
+                              }
                             },
                             background: ColorApp.Btn,
                             radius: 30),
