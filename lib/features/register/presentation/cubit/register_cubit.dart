@@ -83,6 +83,7 @@ class RegisterCubit extends Cubit<RegisterState> {
         default:
           print("Unkown error.");
       }
+
       emit(CreateUserErrorRegister(e.code));
     }
   }

@@ -127,7 +127,11 @@ Widget DefaultTextForm({
       controller: controller,
       keyboardType: type,
       decoration: InputDecoration(
-        suffixStyle: const TextStyle(color: Colors.white),
+        errorStyle: TextStyle(
+          color: Colors.white,
+        ),
+        suffixStyle: const TextStyle(
+            color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400),
         suffix: TextButton(
             onPressed: showPassfunc,
             child: Text(
