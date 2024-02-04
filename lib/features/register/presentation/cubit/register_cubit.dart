@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:project/core/components.dart';
 import 'package:project/features/register/data/models/user_create_model.dart';
@@ -75,7 +74,7 @@ class RegisterCubit extends Cubit<RegisterState> {
       // create data for profile --- fire store call method
       createUserData(email: email, name: name, userId: auth.user!.uid);
       ShowToast(text: 'Success Register', state: ToastStates.SUCCESS);
-      emit(CreateUserSuccessRegister());
+      //  emit(CreateUserSuccessRegister());
       print(auth.user!.email);
       print(auth.user!.uid);
     } on FirebaseAuthException catch (e) {

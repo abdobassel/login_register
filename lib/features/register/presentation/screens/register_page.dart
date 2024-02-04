@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
+import 'package:project/features/login/presentation/screens/login_screen.dart';
 import 'package:project/features/login/presentation/widgets/separated_widget_row.dart';
 import 'package:project/features/login/presentation/widgets/social_auth.dart';
 import 'package:project/features/register/presentation/cubit/register_cubit.dart';
@@ -21,7 +23,12 @@ class RegisterScreen extends StatelessWidget {
     return BlocProvider(
         create: (context) => RegisterCubit(),
         child: BlocConsumer<RegisterCubit, RegisterState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is CreateUserDataSuccessState) {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()));
+            }
+          },
           builder: (context, state) {
             var cubit = RegisterCubit.get(context);
             // old code before refactor => onchange();
@@ -170,21 +177,29 @@ class RegisterScreen extends StatelessWidget {
                           const SizedBox(
                             height: 40,
                           ),
-                          if (state is CreateUserLoadinRegister)
-                            const Center(child: CircularProgressIndicator()),
-                          DefaultButton(
-                              text: 'Create Account',
-                              isUperCase: false,
-                              function: () {
-                                if (formKey.currentState!.validate()) {
-                                  cubit.createUserAuth(
-                                      email: _emailControler.text,
-                                      password: _passControler.text,
-                                      name: _nameControler.text);
-                                }
-                              },
-                              background: ColorApp.Btn,
-                              radius: 30),
+                          Conditional.single(
+                            fallbackBuilder: (context) => const Center(
+                              child: CircularProgressIndicator(
+                                color: ColorApp.Btn,
+                              ),
+                            ),
+                            conditionBuilder: (context) =>
+                                state is! CreateUserLoadinRegister,
+                            context: context,
+                            widgetBuilder: (context) => DefaultButton(
+                                text: 'Create Account',
+                                isUperCase: false,
+                                function: () {
+                                  if (formKey.currentState!.validate()) {
+                                    cubit.createUserAuth(
+                                        email: _emailControler.text,
+                                        password: _passControler.text,
+                                        name: _nameControler.text);
+                                  }
+                                },
+                                background: ColorApp.Btn,
+                                radius: 30),
+                          ),
                           const SizedBox(
                             height: 25,
                           ),

@@ -8,7 +8,10 @@ class LoginInitial extends LoginState {}
 
 class ShowPasswordState extends LoginState {}
 
-class LoginUserSuccessLoginState extends LoginState {}
+class LoginUserSuccessLoginState extends LoginState {
+  final String uId;
+  LoginUserSuccessLoginState(this.uId);
+}
 
 class LoginUserLoadinLoginState extends LoginState {}
 
