@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:project/core/cache_helper/cache_helper.dart';
 import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
 import 'package:project/features/login/presentation/cubit/login_cubit.dart';
@@ -20,7 +22,11 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
         create: (context) => LoginCubit(),
         child: BlocConsumer<LoginCubit, LoginState>(
-          listener: (context, state) {},
+          listener: (context, state) {
+            if (state is LoginUserSuccessLoginState) {
+              cacheHelper.saveData(key: 'uId', value: state.uId);
+            }
+          },
           builder: (context, state) {
             var cubit = LoginCubit.get(context);
             return Scaffold(
@@ -94,25 +100,29 @@ class LoginScreen extends StatelessWidget {
                           const SizedBox(
                             height: 40,
                           ),
-                          if (state is LoginUserLoadinLoginState)
-                            Center(
-                              child: CircularProgressIndicator(),
+                          Conditional.single(
+                            fallbackBuilder: (context) => const Center(
+                              child: CircularProgressIndicator(
+                                color: ColorApp.Btn,
+                              ),
                             ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          DefaultButton(
-                              text: 'Log in',
-                              isUperCase: false,
-                              function: () {
-                                if (loginFormKey.currentState!.validate()) {
-                                  cubit.userLogin(
+                            conditionBuilder: (context) =>
+                                state is! LoginUserLoadinLoginState,
+                            context: context,
+                            widgetBuilder: (context) => DefaultButton(
+                                text: 'Log in',
+                                isUperCase: false,
+                                function: () {
+                                  if (loginFormKey.currentState!.validate()) {
+                                    cubit.userLogin(
                                       email: emailControler.text,
-                                      password: passControler.text);
-                                }
-                              },
-                              background: ColorApp.Btn,
-                              radius: 30),
+                                      password: passControler.text,
+                                    );
+                                  }
+                                },
+                                background: ColorApp.Btn,
+                                radius: 30),
+                          ),
                           const SizedBox(
                             height: 14,
                           ),

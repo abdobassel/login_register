@@ -27,7 +27,7 @@ class LoginCubit extends Cubit<LoginState> {
           .signInWithEmailAndPassword(email: email, password: password);
       print(email);
       String uid = FirebaseAuth.instance.currentUser!.uid;
-      emit(LoginUserSuccessLoginState());
+      emit(LoginUserSuccessLoginState(uid));
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "invalid-credential":
