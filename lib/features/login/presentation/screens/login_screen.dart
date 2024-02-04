@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:project/core/cache_helper/cache_helper.dart';
 import 'package:project/core/colors_app.dart';
 import 'package:project/core/components.dart';
+import 'package:project/features/home/presentation/screens/home_screen.dart';
 import 'package:project/features/login/presentation/cubit/login_cubit.dart';
 import 'package:project/features/login/presentation/widgets/separated_widget_row.dart';
 import 'package:project/features/login/presentation/widgets/social_auth.dart';
@@ -24,7 +25,12 @@ class LoginScreen extends StatelessWidget {
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
             if (state is LoginUserSuccessLoginState) {
-              cacheHelper.saveData(key: 'uId', value: state.uId);
+              cacheHelper.saveData(key: 'uId', value: state.uId)!.then((value) {
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    (route) => false);
+              });
             }
           },
           builder: (context, state) {
