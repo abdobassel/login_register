@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
               cacheHelper.saveData(key: 'uId', value: state.uId)!.then((value) {
                 Navigator.pushAndRemoveUntil(
                     context,
-                    MaterialPageRoute(builder: (context) => const HomeScreen()),
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
                     (route) => false);
               });
             }
