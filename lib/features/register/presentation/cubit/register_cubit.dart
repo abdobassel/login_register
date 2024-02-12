@@ -101,7 +101,13 @@ class RegisterCubit extends Cubit<RegisterState> {
       required String userId}) async {
     emit(CreateUserDataLoadingState());
     try {
-      UserModel model = UserModel(email: email, name: name, userId: userId);
+      UserModel model = UserModel(
+        email: email,
+        name: name,
+        userId: userId,
+        img:
+            'https://img.freepik.com/premium-photo/user-icon-person-symbol-human-avatar-3d-render_473931-217.jpg?w=740',
+      );
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
