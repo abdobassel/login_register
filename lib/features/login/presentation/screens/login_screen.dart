@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
         create: (context) => LoginCubit(),
         child: BlocConsumer<LoginCubit, LoginState>(
           listener: (context, state) {
-            if (state is LoginUserSuccessLoginState) {
+            if (state is LoginUserSuccessLoginState && state.uId != null) {
               cacheHelper.saveData(key: 'uId', value: state.uId)!.then((value) {
                 Navigator.pushAndRemoveUntil(
                     context,

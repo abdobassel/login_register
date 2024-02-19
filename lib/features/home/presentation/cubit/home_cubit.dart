@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
 import 'package:project/core/constants.dart';
 import 'package:project/features/home/presentation/screens/add_image.dart';
 import 'package:project/features/home/presentation/screens/add_task.dart';
@@ -47,6 +49,7 @@ class HomeCubit extends Cubit<HomeState> {
   // get users data
   late UserModel model;
   void getUserData() async {
+    // uid = cacheHelper.getData(key: 'uId');
     emit(HomeGetUserDataLoadingState());
 
     await FirebaseFirestore.instance
@@ -88,7 +91,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   var picker = ImagePicker();
-
+  var webPicker = ImagePickerWeb();
   File? profileImage;
   Future<void> getImgProfile() async {
     final pickedFile = await picker.pickImage(
